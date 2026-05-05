@@ -26,6 +26,12 @@ npm run start -- --lan
 
 Abre Expo Go en el celular y escanea el QR de la terminal.
 
+## Link web
+
+La version web se publica con GitHub Pages:
+
+https://manelv74-creator.github.io/album-panini-2026/
+
 ## Estado actual
 
 Esta primera version permite tomar foto y confirmar el codigo manualmente. El siguiente paso es conectar OCR para leer automaticamente el codigo del reverso de la estampa.
