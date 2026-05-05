@@ -2,7 +2,7 @@
   "expo": {
     "name": "Album Panini 2026",
     "slug": "album-panini-2026",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
     "splash": {
@@ -24,7 +24,7 @@
       [
         "expo-camera",
         {
-          "cameraPermission": "Permite usar la cámara para leer el código de tus estampas Panini."
+          "cameraPermission": "Permite usar la camara para leer el codigo de tus estampas Panini."
         }
       ]
     ]

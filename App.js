@@ -18,6 +18,7 @@ import {
 import { STICKERS, findSticker, normalizeStickerCode } from "./src/stickers";
 
 const STORAGE_KEY = "panini-2026-collection-v1";
+const APP_VERSION = "0.2.0";
 
 function getStatus(quantity) {
   if (quantity >= 2) {
@@ -164,6 +165,7 @@ export default function App() {
           <View>
             <Text style={styles.kicker}>FIFA World Cup 2026</Text>
             <Text style={styles.title}>Album Manager</Text>
+            <Text style={styles.versionText}>Version {APP_VERSION}</Text>
           </View>
           <View style={styles.counter}>
             <Text style={styles.counterNumber}>{stats.owned}</Text>
@@ -384,6 +386,12 @@ const styles = StyleSheet.create({
     fontSize: 31,
     fontWeight: "900",
     letterSpacing: 0
+  },
+  versionText: {
+    color: "#d73b32",
+    fontSize: 12,
+    fontWeight: "900",
+    marginTop: 2
   },
   counter: {
     alignItems: "center",
