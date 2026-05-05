@@ -1,0 +1,32 @@
+{
+  "expo": {
+    "name": "Album Panini 2026",
+    "slug": "album-panini-2026",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "backgroundColor": "#f7f4ef"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "com.codex.album.panini2026",
+      "permissions": [
+        "CAMERA"
+      ]
+    },
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Permite usar la cámara para leer el código de tus estampas Panini."
+        }
+      ]
+    ]
+  }
+}
