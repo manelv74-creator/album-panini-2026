@@ -50,6 +50,7 @@ export default function App() {
   const [codeInput, setCodeInput] = useState("ARG 4");
   const [selectedCode, setSelectedCode] = useState("ARG4");
   const [photoTaken, setPhotoTaken] = useState(false);
+  const [cameraFacing, setCameraFacing] = useState("back");
   const [query, setQuery] = useState("");
 
   useEffect(() => {
@@ -148,6 +149,10 @@ export default function App() {
     setPhotoTaken(true);
   };
 
+  const toggleCameraFacing = () => {
+    setCameraFacing((current) => (current === "back" ? "front" : "back"));
+  };
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar style="dark" />
@@ -211,10 +216,14 @@ export default function App() {
           </View>
           <View style={styles.cameraBox}>
             {permission?.granted ? (
-              <CameraView ref={cameraRef} style={styles.camera} facing="back">
+              <CameraView ref={cameraRef} style={styles.camera} facing={cameraFacing}>
                 <View style={styles.scanFrame}>
                   <View style={styles.scanCorner} />
-                  <Text style={styles.scanFrameText}>Centra el codigo: ARG 4</Text>
+                  <Text style={styles.scanFrameText}>
+                    {cameraFacing === "back"
+                      ? "Camara trasera - centra el codigo"
+                      : "Camara frontal activa"}
+                  </Text>
                 </View>
               </CameraView>
             ) : (
@@ -241,9 +250,19 @@ export default function App() {
             <Text style={styles.scanHint}>
               {photoTaken
                 ? "Foto tomada. En esta version confirma el codigo manualmente."
-                : "Apunta al reverso, por ejemplo ARG 4."}
+                : "Usa la camara trasera y apunta al reverso, por ejemplo ARG 4."}
             </Text>
           </View>
+
+          <Pressable
+            disabled={!permission?.granted}
+            style={[styles.cameraSwitchButton, !permission?.granted && styles.disabledButton]}
+            onPress={toggleCameraFacing}
+          >
+            <Text style={styles.cameraSwitchText}>
+              {cameraFacing === "back" ? "Cambiar a camara frontal" : "Volver a camara trasera"}
+            </Text>
+          </Pressable>
 
           <View style={styles.inputRow}>
             <TextInput
@@ -600,6 +619,23 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 10,
     marginTop: 10
+  },
+  cameraSwitchButton: {
+    alignItems: "center",
+    alignSelf: "flex-start",
+    backgroundColor: "#eef3f0",
+    borderColor: "#c8d4ce",
+    borderRadius: 8,
+    borderWidth: 1,
+    marginTop: 8,
+    minHeight: 38,
+    paddingHorizontal: 12,
+    justifyContent: "center"
+  },
+  cameraSwitchText: {
+    color: "#092c26",
+    fontSize: 12,
+    fontWeight: "900"
   },
   scanHint: {
     color: "#6c665e",
