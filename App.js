@@ -157,12 +157,44 @@ export default function App() {
       >
         <View style={styles.header}>
           <View>
-            <Text style={styles.kicker}>Panini FIFA World Cup 2026</Text>
-            <Text style={styles.title}>Mi album</Text>
+            <Text style={styles.kicker}>FIFA World Cup 2026</Text>
+            <Text style={styles.title}>Album Manager</Text>
           </View>
           <View style={styles.counter}>
             <Text style={styles.counterNumber}>{stats.owned}</Text>
             <Text style={styles.counterLabel}>tengo</Text>
+          </View>
+        </View>
+
+        <View style={styles.heroPanel}>
+          <View style={styles.heroCopy}>
+            <Text style={styles.heroLabel}>Gestion de coleccion</Text>
+            <Text style={styles.heroTitle}>Panini Mundial 2026</Text>
+            <Text style={styles.heroText}>
+              Escanea el reverso, confirma el codigo y controla tus faltantes y repetidas.
+            </Text>
+          </View>
+          <View style={styles.pitchBadge}>
+            <View style={styles.pitchLine} />
+            <Text style={styles.pitchNumber}>26</Text>
+            <Text style={styles.pitchText}>World Cup</Text>
+          </View>
+        </View>
+
+        <View style={styles.progressPanel}>
+          <View style={styles.progressHeader}>
+            <Text style={styles.progressTitle}>Progreso del album</Text>
+            <Text style={styles.progressPercent}>
+              {Math.round((stats.owned / STICKERS.length) * 100)}%
+            </Text>
+          </View>
+          <View style={styles.progressTrack}>
+            <View
+              style={[
+                styles.progressFill,
+                { width: `${Math.min((stats.owned / STICKERS.length) * 100, 100)}%` }
+              ]}
+            />
           </View>
         </View>
 
@@ -173,9 +205,18 @@ export default function App() {
         </View>
 
         <View style={styles.scanPanel}>
+          <View style={styles.panelTitleRow}>
+            <Text style={styles.panelTitle}>Escaner de estampas</Text>
+            <Text style={styles.panelTag}>Reverso</Text>
+          </View>
           <View style={styles.cameraBox}>
             {permission?.granted ? (
-              <CameraView ref={cameraRef} style={styles.camera} facing="back" />
+              <CameraView ref={cameraRef} style={styles.camera} facing="back">
+                <View style={styles.scanFrame}>
+                  <View style={styles.scanCorner} />
+                  <Text style={styles.scanFrameText}>Centra el codigo: ARG 4</Text>
+                </View>
+              </CameraView>
             ) : (
               <View style={styles.permissionBox}>
                 <Text style={styles.permissionTitle}>Camara lista para activar</Text>
@@ -220,6 +261,7 @@ export default function App() {
         </View>
 
         <View style={[styles.resultPanel, styles[`${status.tone}Panel`]]}>
+          <Text style={styles.resultEyebrow}>Resultado</Text>
           <Text style={styles.resultStatus}>{status.label}</Text>
           <Text style={styles.resultName}>
             {selectedSticker ? selectedSticker.name : "Estampa sin datos"}
@@ -241,7 +283,7 @@ export default function App() {
         </View>
 
         <View style={styles.listHeader}>
-          <Text style={styles.sectionTitle}>Checklist inicial</Text>
+          <Text style={styles.sectionTitle}>Panel de gestion</Text>
           <TextInput
             placeholder="Buscar codigo, jugador o seleccion"
             style={styles.searchInput}
@@ -271,8 +313,11 @@ export default function App() {
                   <Text style={styles.itemName}>{item.name}</Text>
                   <Text style={styles.itemTeam}>{item.team}</Text>
                 </View>
-                <View style={[styles.statusPill, styles[`${itemStatus.tone}Pill`]]}>
-                  <Text style={styles.statusPillText}>{itemStatus.label}</Text>
+                <View style={styles.itemRight}>
+                  <Text style={styles.quantityText}>x{quantity}</Text>
+                  <View style={[styles.statusPill, styles[`${itemStatus.tone}Pill`]]}>
+                    <Text style={styles.statusPillText}>{itemStatus.label}</Text>
+                  </View>
                 </View>
               </Pressable>
             );
@@ -295,7 +340,7 @@ function Stat({ label, value }) {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: "#f7f4ef"
+    backgroundColor: "#eef3f0"
   },
   container: {
     flex: 1,
@@ -309,21 +354,21 @@ const styles = StyleSheet.create({
     marginBottom: 12
   },
   kicker: {
-    color: "#6c665e",
+    color: "#51605b",
     fontSize: 12,
     fontWeight: "700",
     letterSpacing: 0,
     textTransform: "uppercase"
   },
   title: {
-    color: "#1f2529",
-    fontSize: 34,
+    color: "#10211b",
+    fontSize: 31,
     fontWeight: "900",
     letterSpacing: 0
   },
   counter: {
     alignItems: "center",
-    backgroundColor: "#17324d",
+    backgroundColor: "#092c26",
     borderRadius: 8,
     minWidth: 74,
     paddingHorizontal: 12,
@@ -335,10 +380,112 @@ const styles = StyleSheet.create({
     fontWeight: "900"
   },
   counterLabel: {
-    color: "#dbe9f2",
+    color: "#cce9df",
     fontSize: 11,
     fontWeight: "700",
     textTransform: "uppercase"
+  },
+  heroPanel: {
+    backgroundColor: "#0d3b31",
+    borderColor: "#0a2d26",
+    borderRadius: 8,
+    borderWidth: 1,
+    flexDirection: "row",
+    gap: 12,
+    marginBottom: 10,
+    minHeight: 126,
+    overflow: "hidden",
+    padding: 14
+  },
+  heroCopy: {
+    flex: 1,
+    justifyContent: "center"
+  },
+  heroLabel: {
+    color: "#f3c14b",
+    fontSize: 12,
+    fontWeight: "900",
+    letterSpacing: 0,
+    textTransform: "uppercase"
+  },
+  heroTitle: {
+    color: "#ffffff",
+    fontSize: 26,
+    fontWeight: "900",
+    letterSpacing: 0,
+    marginTop: 2
+  },
+  heroText: {
+    color: "#d7ece5",
+    fontSize: 13,
+    lineHeight: 18,
+    marginTop: 6
+  },
+  pitchBadge: {
+    alignItems: "center",
+    alignSelf: "stretch",
+    backgroundColor: "#155d4b",
+    borderColor: "#5fd19e",
+    borderRadius: 8,
+    borderWidth: 1,
+    justifyContent: "center",
+    minWidth: 104,
+    overflow: "hidden",
+    paddingHorizontal: 10
+  },
+  pitchLine: {
+    borderColor: "rgba(255,255,255,0.45)",
+    borderRadius: 999,
+    borderWidth: 2,
+    height: 58,
+    position: "absolute",
+    width: 58
+  },
+  pitchNumber: {
+    color: "#ffffff",
+    fontSize: 34,
+    fontWeight: "900"
+  },
+  pitchText: {
+    color: "#f3c14b",
+    fontSize: 11,
+    fontWeight: "900",
+    textTransform: "uppercase"
+  },
+  progressPanel: {
+    backgroundColor: "#ffffff",
+    borderColor: "#d7e0db",
+    borderRadius: 8,
+    borderWidth: 1,
+    marginBottom: 10,
+    padding: 12
+  },
+  progressHeader: {
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 8
+  },
+  progressTitle: {
+    color: "#10211b",
+    fontSize: 14,
+    fontWeight: "900"
+  },
+  progressPercent: {
+    color: "#d73b32",
+    fontSize: 14,
+    fontWeight: "900"
+  },
+  progressTrack: {
+    backgroundColor: "#dce6e0",
+    borderRadius: 999,
+    height: 10,
+    overflow: "hidden"
+  },
+  progressFill: {
+    backgroundColor: "#28a36f",
+    borderRadius: 999,
+    height: "100%"
   },
   statsRow: {
     flexDirection: "row",
@@ -347,38 +494,86 @@ const styles = StyleSheet.create({
   },
   stat: {
     backgroundColor: "#ffffff",
-    borderColor: "#e4ded4",
+    borderColor: "#d7e0db",
     borderRadius: 8,
     borderWidth: 1,
     flex: 1,
     padding: 10
   },
   statValue: {
-    color: "#1f2529",
+    color: "#10211b",
     fontSize: 20,
     fontWeight: "900"
   },
   statLabel: {
-    color: "#706a62",
+    color: "#51605b",
     fontSize: 12,
     fontWeight: "700",
     marginTop: 2
   },
   scanPanel: {
     backgroundColor: "#ffffff",
-    borderColor: "#e4ded4",
+    borderColor: "#d7e0db",
     borderRadius: 8,
     borderWidth: 1,
     padding: 10
   },
+  panelTitleRow: {
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 8
+  },
+  panelTitle: {
+    color: "#10211b",
+    fontSize: 16,
+    fontWeight: "900"
+  },
+  panelTag: {
+    backgroundColor: "#fff1d7",
+    borderRadius: 999,
+    color: "#7f4e00",
+    fontSize: 11,
+    fontWeight: "900",
+    paddingHorizontal: 9,
+    paddingVertical: 4,
+    textTransform: "uppercase"
+  },
   cameraBox: {
     aspectRatio: 4 / 3,
-    backgroundColor: "#1f2529",
+    backgroundColor: "#10211b",
     borderRadius: 8,
     overflow: "hidden"
   },
   camera: {
     flex: 1
+  },
+  scanFrame: {
+    alignItems: "center",
+    alignSelf: "center",
+    borderColor: "rgba(255,255,255,0.72)",
+    borderRadius: 8,
+    borderWidth: 2,
+    bottom: 22,
+    justifyContent: "center",
+    minHeight: 64,
+    paddingHorizontal: 14,
+    position: "absolute",
+    width: "62%"
+  },
+  scanCorner: {
+    backgroundColor: "#f3c14b",
+    borderRadius: 999,
+    height: 8,
+    position: "absolute",
+    top: -5,
+    width: 44
+  },
+  scanFrameText: {
+    color: "#ffffff",
+    fontSize: 12,
+    fontWeight: "900",
+    textAlign: "center"
   },
   permissionBox: {
     alignItems: "center",
@@ -418,8 +613,8 @@ const styles = StyleSheet.create({
     marginTop: 10
   },
   input: {
-    backgroundColor: "#f7f4ef",
-    borderColor: "#d8d0c6",
+    backgroundColor: "#eef3f0",
+    borderColor: "#c8d4ce",
     borderRadius: 8,
     borderWidth: 1,
     color: "#1f2529",
@@ -444,7 +639,7 @@ const styles = StyleSheet.create({
   },
   secondaryButton: {
     alignItems: "center",
-    backgroundColor: "#17324d",
+    backgroundColor: "#092c26",
     borderRadius: 8,
     justifyContent: "center",
     minHeight: 40,
@@ -460,37 +655,47 @@ const styles = StyleSheet.create({
   },
   resultPanel: {
     borderRadius: 8,
+    borderWidth: 1,
     marginTop: 12,
     padding: 14
   },
   missingPanel: {
-    backgroundColor: "#fff1d7"
+    backgroundColor: "#fff1d7",
+    borderColor: "#f0c36b"
   },
   ownedPanel: {
-    backgroundColor: "#dff3e6"
+    backgroundColor: "#dff3e6",
+    borderColor: "#91d9ad"
   },
   repeatPanel: {
-    backgroundColor: "#dcecff"
+    backgroundColor: "#dcecff",
+    borderColor: "#94bff3"
+  },
+  resultEyebrow: {
+    color: "#51605b",
+    fontSize: 11,
+    fontWeight: "900",
+    textTransform: "uppercase"
   },
   resultStatus: {
-    color: "#1f2529",
+    color: "#10211b",
     fontSize: 24,
     fontWeight: "900"
   },
   resultName: {
-    color: "#1f2529",
+    color: "#10211b",
     fontSize: 19,
     fontWeight: "800",
     marginTop: 2
   },
   resultMeta: {
-    color: "#4d575d",
+    color: "#46564f",
     fontSize: 13,
     fontWeight: "700",
     marginTop: 3
   },
   resultDetail: {
-    color: "#4d575d",
+    color: "#46564f",
     fontSize: 13,
     marginTop: 8
   },
@@ -509,7 +714,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16
   },
   ghostButtonText: {
-    color: "#1f2529",
+    color: "#10211b",
     fontSize: 14,
     fontWeight: "900"
   },
@@ -517,14 +722,14 @@ const styles = StyleSheet.create({
     marginTop: 12
   },
   sectionTitle: {
-    color: "#1f2529",
+    color: "#10211b",
     fontSize: 18,
     fontWeight: "900",
     marginBottom: 8
   },
   searchInput: {
     backgroundColor: "#ffffff",
-    borderColor: "#e4ded4",
+    borderColor: "#d7e0db",
     borderRadius: 8,
     borderWidth: 1,
     color: "#1f2529",
@@ -539,7 +744,7 @@ const styles = StyleSheet.create({
   listItem: {
     alignItems: "center",
     backgroundColor: "#ffffff",
-    borderColor: "#e4ded4",
+    borderColor: "#d7e0db",
     borderRadius: 8,
     borderWidth: 1,
     flexDirection: "row",
@@ -553,16 +758,25 @@ const styles = StyleSheet.create({
     fontWeight: "900"
   },
   itemName: {
-    color: "#1f2529",
+    color: "#10211b",
     fontSize: 16,
     fontWeight: "800",
     marginTop: 2
   },
   itemTeam: {
-    color: "#6c665e",
+    color: "#51605b",
     fontSize: 12,
     fontWeight: "700",
     marginTop: 2
+  },
+  itemRight: {
+    alignItems: "flex-end",
+    gap: 6
+  },
+  quantityText: {
+    color: "#51605b",
+    fontSize: 12,
+    fontWeight: "900"
   },
   statusPill: {
     borderRadius: 999,
@@ -579,7 +793,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#dcecff"
   },
   statusPillText: {
-    color: "#1f2529",
+    color: "#10211b",
     fontSize: 11,
     fontWeight: "900"
   }
